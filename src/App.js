@@ -8,19 +8,19 @@ export const App = () => {
 	const [operator, setOperator] = useState('');
 	const NUMS = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
 	const [result, setResult] = useState('');
-	const onClickNumber = (event) => {
-		if (!operator) {
-			console.log(event.target.innerText);
-			setOp1(op1 + event.target.innerText);
-		} else if (operator !== '') {
-			setOp2(op2 + event.target.innerText);
-		}
-	};
+	const onClickNumber = (number) => {
+if (!operator) {
+console.log(event.target.innerText);
+setOp1(number);
+} else if (operator !== '') {
+setOp2(number);
+}
+};
 
 	const createNumberButtons = () => {
 		const buttons = NUMS.map((num, index) => {
 			return (
-				<button key={index} className="number" onClick={onClickNumber}>
+				<button key={index} className="number" onClick={() =>onClickNumber(num)}>
 					{num}
 				</button>
 			);
