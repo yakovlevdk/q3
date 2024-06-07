@@ -7,6 +7,7 @@ export const App = () => {
 	const [op2, setOp2] = useState('');
 	const [operator, setOperator] = useState('');
 	const NUMS = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+	const OPERATORS = ['+', '-'];
 	const [result, setResult] = useState('');
 	const onClickNumber = (number) => {
 if (!operator) {
@@ -27,6 +28,20 @@ setOp2(number);
 		});
 		return buttons;
 	};
+
+
+  const createOperatorButtons = () => {
+    const buttons = OPERATORS.map((op, index) => {
+	    
+      return (
+        <button key={index} className="operator" onClick={op === '+' ? clickPlus : clickMinus}>
+          {op}
+        </button>
+      );
+    });
+    return buttons;
+  };
+
 
 	const clickC = () => {
 		setOp1('');
@@ -80,8 +95,7 @@ setOp2(number);
 			</div>
 			{createNumberButtons()}
 			<div>
-				<button onClick={clickPlus}>+</button>
-				<button onClick={clickMinus}>-</button>
+				{createOperatorButtons()}
 
 				<button onClick={clickC}>C</button>
 			</div>
