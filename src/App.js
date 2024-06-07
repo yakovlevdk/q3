@@ -12,9 +12,9 @@ export const App = () => {
 	const onClickNumber = (number) => {
 if (!operator) {
 console.log(event.target.innerText);
-setOp1(number);
+setOp1(op1 + number);
 } else if (operator !== '') {
-setOp2(number);
+setOp2(op2 + number);
 }
 };
 
