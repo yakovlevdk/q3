@@ -6,42 +6,24 @@ export const App = () => {
 	const [op1, setOp1] = useState('');
 	const [op2, setOp2] = useState('');
 	const [operator, setOperator] = useState('');
-	const NUMS = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
-	const OPERATORS = ['+', '-'];
+	const buttons = [
+		'0',
+		'1',
+		'2',
+		'3',
+		'4',
+		'5',
+		'6',
+		'7',
+		'8',
+		'9',
+		'C',
+		'=',
+		'+',
+		'-',
+	];
+
 	const [result, setResult] = useState('');
-	const onClickNumber = (number) => {
-if (!operator) {
-console.log(event.target.innerText);
-setOp1(op1 + number);
-} else if (operator !== '') {
-setOp2(op2 + number);
-}
-};
-
-	const createNumberButtons = () => {
-		const buttons = NUMS.map((num, index) => {
-			return (
-				<button key={index} className="number" onClick={() =>onClickNumber(num)}>
-					{num}
-				</button>
-			);
-		});
-		return buttons;
-	};
-
-
-  const createOperatorButtons = () => {
-    const buttons = OPERATORS.map((op, index) => {
-	    
-      return (
-        <button key={index} className="operator" onClick={op === '+' ? clickPlus : clickMinus}>
-          {op}
-        </button>
-      );
-    });
-    return buttons;
-  };
-
 
 	const clickC = () => {
 		setOp1('');
@@ -49,15 +31,6 @@ setOp2(op2 + number);
 		setOperator('');
 		setResult('');
 	};
-
-	const isOperator = () => {
-		const elements = [];
-		if (op1) elements.push(op1);
-		if (operator) elements.push(operator);
-		if (op2) elements.push(op2);
-		return elements.join(' ');
-	};
-
 	const clickPlus = () => {
 		setOperator('+');
 	};
@@ -65,7 +38,6 @@ setOp2(op2 + number);
 	const clickMinus = () => {
 		setOperator('-');
 	};
-
 	const calculateResult = () => {
 		if (op1 && op2 && operator) {
 			if (operator === '+') {
@@ -79,6 +51,46 @@ setOp2(op2 + number);
 			}
 		}
 	};
+	const handleClick = (num) => {
+		const isNum = isFinite(Number(num));
+		if (num === 'C') return clickC();
+		if (!operator) {
+			if (isNum) {
+				return setOp1((prevOp1) => prevOp1 + num);
+			}
+		} else if (operator !== '') {
+			if (isNum) {
+				return setOp2((prevOp2) => prevOp2 + num);
+			}
+		}
+		if (num === '+') return clickPlus();
+		if (num === '-') return clickMinus();
+		if (num === '=') return calculateResult();
+	};
+
+	const createNumberButtons = () => {
+		const createButtons = buttons.map((num, index) => {
+			return (
+				<button
+					key={num}
+					className="number"
+					onClick={() => handleClick(num)}
+				>
+					{num}
+				</button>
+			);
+		});
+		return createButtons;
+	};
+
+	const isOperator = () => {
+		const elements = [];
+		if (op1) elements.push(op1);
+		if (operator) elements.push(operator);
+		if (op2) elements.push(op2);
+		return elements.join(' ');
+	};
+
 	const changeColorResult = () => {
 		return result ? 'red' : 'black';
 	};
@@ -94,13 +106,6 @@ setOp2(op2 + number);
 				</p>
 			</div>
 			{createNumberButtons()}
-			<div>
-				{createOperatorButtons()}
-
-				<button onClick={clickC}>C</button>
-			</div>
-
-			<button onClick={calculateResult}>=</button>
 		</div>
 	);
 };
